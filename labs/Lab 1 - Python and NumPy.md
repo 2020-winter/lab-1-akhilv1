@@ -45,45 +45,81 @@ For the following exercises please read the Python appendix in the Marsland text
 
 
 ## Exercise 1
+Make an array a of size 6 × 4 where every element is a 2.
 
 ```python
-# YOUR SOLUTION HERE
+import numpy as np
+a = np.ones((6,4))*2
+print(a)
 ```
 
 ## Exercise 2
+Make an array b of size 6 × 4 that has 3 on the leading diagonal and 1
+everywhere else. (You can do this without loops.)
 
 ```python
-# YOUR SOLUTION HERE
+b = np.ones((6,4))
+b[range(4), range(4)] = 3
+print(b)
 ```
 
 ## Exercise 3
+Can you multiply these two matrices together? Why does a * b work, but
+not dot(a,b)?
 
 ```python
-# YOUR SOLUTION HERE
+print(a * b)
+np.dot(a, b)
+#dot function uses dot multiplication of matricies, so the dimentions of the two matricies must be inverse of each other
 ```
 
 ## Exercise 4
+Compute dot(a.transpose(),b) and dot(a,b.transpose()). Why are
+the results different shapes?
 
 ```python
-# YOUR SOLUTION HERE
+print("np.dot(a.transpose(),b)\n", np.dot(a.transpose(),b), "\n")
+print("np.dot(a,b.transpose())\n", np.dot(a,b.transpose()))
+#they're different dimensons because of dot multiplication again. 
+#in dot(a.transpose(),b), a.transpose is 4x6 and multiplied with b which is 6x4 which results in a 4x4 output
+#in dot(a,b.transpose()), b.transpose is 6x4 and multiplied with a which is 4x6 which results in a 6x6 output
 ```
 
 ## Exercise 5
+Write a function that prints some output on the screen and make sure you can run it in the programming environment that you are using.
 
 ```python
-# YOUR SOLUTION HERE
+def printSomething():
+    print("something")
+    
+printSomething();
 ```
 
 ## Exercise 6
+Now write one that makes some random arrays and prints out their sums, the mean value, etc.
 
 ```python
-# YOUR SOLUTION HERE
+def makeRandArr():
+    arr = np.random.rand(6, 4)
+    print(arr)
+    print("arr.sum()",arr.sum())
+    print("arr.mean()",arr.mean())
+    
+makeRandArr()
 ```
 
 ## Exercise 7
+Write a function that consists of a set of loops that run through an array and count the number of ones in it. Do the same thing using the where() function (use info(where) to find out how to use it).
 
 ```python
-# YOUR SOLUTION HERE
+def countOnes(arr):
+    c = 0;
+    for i in range(arr.shape[0]):
+        for j in range(arr.shape[1]):
+            if arr[i][j] == 1:
+                c += 1
+    return c,len(np.where(arr==1)[0])
+countOnes(a), countOnes(b)
 ```
 
 ## Excercises 8-11
@@ -94,14 +130,20 @@ While the Marsland book avoids using another popular package called Pandas, we w
 Repeat exercise A.1 from Marsland, but create a Pandas DataFrame instead of a NumPy array.
 
 ```python
-# YOUR SOLUTION HERE
+import pandas as pd
+import numpy as np
+a = pd.DataFrame(np.ones((6,4))*2)
+print(a)
 ```
 
 ## Exercise 9
 Repeat exercise A.2 using a DataFrame instead.
 
 ```python
-# YOUR SOLUTION HERE
+b = np.ones((6,4))
+b = pd.DataFrame(b)
+b.iloc[range(4),range(4)] = 3
+print(b)
 ```
 
 ```python
@@ -112,14 +154,23 @@ b.values
 Repeat exercise A.3 using DataFrames instead.
 
 ```python
-# YOUR SOLUTION HERE
+print(a*b)
+# np.dot(a, b)
 ```
 
 ## Exercise 11
 Repeat exercise A.7 using a dataframe.
 
 ```python
-# YOUR SOLUTION HERE
+def countOnes(arr):
+    c = 0
+    for i in range(arr.shape[0]):
+        for j in range(arr.shape[1]):
+            if arr.iloc[i, j] == 1:
+                c += 1
+    
+    return c, len(np.where(arr == 1)[0])
+countOnes(a), countOnes(b)
 ```
 
 ## Exercises 12-14
@@ -154,15 +205,15 @@ Notice how we have nice headers and mixed datatypes? That is one of the reasons 
 How do you select the ``name`` column without using .iloc?
 
 ```python
-## YOUR SOLUTION HERE
+titanic_df["name"]
 ```
 
 ## Exercise 13
 After setting the index to ``sex``, how do you select all passengers that are ``female``? And how many female passengers are there?
 
 ```python
-## YOUR SOLUTION HERE
 titanic_df.set_index('sex',inplace=True)
+titanic_df.loc['female']
 ```
 
 ## Exercise 14
@@ -170,7 +221,7 @@ How do you reset the index?
 
 ```python
 titanic_df.reset_index(inplace=True)
-
+titanic_df
 ```
 
 ```python
